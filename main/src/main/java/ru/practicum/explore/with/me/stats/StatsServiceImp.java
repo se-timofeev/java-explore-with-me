@@ -60,6 +60,13 @@ public class StatsServiceImp implements StatsService {
             Long hits = statsViewDtoMap.getOrDefault(key, stats).getHits();
             el.setViews(hits);
         });
+        StringBuilder query = new StringBuilder();
+        query.append("/events");
+        if (request.getQueryString() != null) {
+            query.append(request.getQueryString());
+        }
+        uris.add(query.toString());
+
         statsHit(request, uris);
         return eventShortDtoList;
     }
