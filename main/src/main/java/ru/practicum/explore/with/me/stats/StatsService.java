@@ -1,6 +1,5 @@
 package ru.practicum.explore.with.me.stats;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import ru.practicum.explore.with.me.events.dto.EventFullDto;
 import ru.practicum.explore.with.me.events.dto.EventShortDto;
 
