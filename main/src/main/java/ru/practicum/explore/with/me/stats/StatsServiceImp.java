@@ -37,7 +37,7 @@ public class StatsServiceImp implements StatsService {
     }
 
     @Override
-    public void statsHit(HttpServletRequest request) throws URISyntaxException, JsonProcessingException {
+    public void statsHit(HttpServletRequest request) throws URISyntaxException, IOException, InterruptedException {
         StatsHitDto statsHitDto = StatsHitDto.builder()
                 .app("ewm-main-service")
                 .uri(request.getRequestURL().toString())
@@ -81,7 +81,7 @@ public class StatsServiceImp implements StatsService {
         return eventFullDto;
     }
 
-    private void statsHit(HttpServletRequest request, List<String> uris) throws JsonProcessingException, URISyntaxException {
+    private void statsHit(HttpServletRequest request, List<String> uris) throws IOException, URISyntaxException, InterruptedException {
         List<StatsHitDto> statsHitDtoList = uris.stream()
                 .map(uri -> StatsHitDto.builder()
                         .app("ewm-main-service")
@@ -95,7 +95,7 @@ public class StatsServiceImp implements StatsService {
         }
     }
 
-    private void sendStats(StatsHitDto statsHitDto) throws JsonProcessingException, URISyntaxException {
+    private void sendStats(StatsHitDto statsHitDto) throws IOException, URISyntaxException, InterruptedException {
         String requestBody = objectMapper
                 .writerWithDefaultPrettyPrinter()
                 .writeValueAsString(statsHitDto);
@@ -106,8 +106,8 @@ public class StatsServiceImp implements StatsService {
                 .build();
 
         HttpClient.newHttpClient()
-                .sendAsync(statRequest, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::statusCode);
+                .send(statRequest, HttpResponse.BodyHandlers.ofString());
+
     }
 
     private List<StatsViewDto> getStats(List<String> uris) throws URISyntaxException, IOException, InterruptedException {

@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public interface StatsService {
-    void statsHit(HttpServletRequest request) throws URISyntaxException, JsonProcessingException;
+    void statsHit(HttpServletRequest request) throws URISyntaxException, IOException, InterruptedException;
 
     List<EventShortDto> getViewStats(HttpServletRequest request, List<EventShortDto> eventShortDtoList) throws URISyntaxException, IOException, InterruptedException;
 
