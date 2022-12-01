@@ -5,15 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.practicum.explore.with.me.stats.StatsService;
+import ru.practicum.explore.with.me.service.StatService;
 
 @EnableWebMvc
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final StatsService statsService;
+    private final StatService statsService;
 
-    public WebConfig(StatsService statsService) {
+    public WebConfig(StatService statsService) {
         this.statsService = statsService;
     }
 

@@ -3,9 +3,9 @@ package ru.practicum.explore.with.me.controllers.admin;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore.with.me.events.dto.NewEventDto;
-import ru.practicum.explore.with.me.events.service.EventService;
-import ru.practicum.explore.with.me.events.dto.EventFullDto;
+import ru.practicum.explore.with.me.model.events.dto.NewEventDto;
+import ru.practicum.explore.with.me.service.EventService;
+import ru.practicum.explore.with.me.model.events.dto.EventFullDto;
 
 import java.util.List;
 

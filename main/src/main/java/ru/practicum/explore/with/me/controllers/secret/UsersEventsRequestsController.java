@@ -3,8 +3,8 @@ package ru.practicum.explore.with.me.controllers.secret;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore.with.me.requests.dto.RequestDto;
-import ru.practicum.explore.with.me.requests.service.RequestsService;
+import ru.practicum.explore.with.me.model.request.dto.RequestDto;
+import ru.practicum.explore.with.me.service.RequestsService;
 
 import java.util.List;
 

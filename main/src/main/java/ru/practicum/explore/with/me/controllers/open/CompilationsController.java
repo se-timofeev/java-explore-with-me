@@ -3,8 +3,8 @@ package ru.practicum.explore.with.me.controllers.open;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore.with.me.compilations.dto.CompilationDto;
-import ru.practicum.explore.with.me.compilations.service.CompilationsService;
+import ru.practicum.explore.with.me.model.compilations.dto.CompilationDto;
+import ru.practicum.explore.with.me.service.CompilationsService;
 
 import java.util.List;
 
@@ -20,6 +20,7 @@ public class CompilationsController {
     public List<CompilationDto> getAll(@RequestParam(required = false) Boolean pinned,
                                        @RequestParam(required = false, defaultValue = "0") Integer from,
                                        @RequestParam(required = false, defaultValue = "10") Integer size) {
+        log.info("CompilationsController getAll");
         return compilationsService.getAll(pinned, from, size);
     }
 
