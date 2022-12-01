@@ -48,5 +48,4 @@ public class EventsController {
         EventFullDto eventFullDto = eventService.getOne(id);
         return statsService.getViewStats(request, eventFullDto);
     }
-
 }
