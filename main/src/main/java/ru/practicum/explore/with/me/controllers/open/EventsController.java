@@ -36,8 +36,7 @@ public class EventsController {
             @RequestParam(required = false, defaultValue = "0") Integer from,
             @RequestParam(required = false, defaultValue = "10") Integer size) throws URISyntaxException, IOException, InterruptedException {
 
-        List<EventDtoShort> eventDtoShortList = eventService.getAll
-                (text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+        List<EventDtoShort> eventDtoShortList = eventService.getAll(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
         return statsService.getViewStats(request, eventDtoShortList);
 
     }
