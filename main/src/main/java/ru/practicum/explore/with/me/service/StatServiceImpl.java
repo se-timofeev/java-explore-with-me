@@ -24,14 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 @Service
 @Slf4j
 public class StatServiceImpl implements StatService {
-
+    private final ObjectMapper objectMapper;
     @Value("${stats-server.url}")
     private String serverUrl;
-    private final ObjectMapper objectMapper;
 
     public StatServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

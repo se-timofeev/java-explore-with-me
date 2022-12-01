@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
-public class StatServiceImpl implements StatService {
+public class StatsServiceImpl implements StatsService {
 
     private StatRepository statRepository;
 
@@ -32,6 +32,7 @@ public class StatServiceImpl implements StatService {
             return statRepository.countTotalIp(startDate, endDate, uris);
         }
     }
+
     @Override
     @Transactional
     public void addHit(StatHitDto statHitDto) {

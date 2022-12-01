@@ -5,7 +5,7 @@ import ru.practicum.explore.with.me.model.StatViewDto;
 
 import java.util.List;
 
-public interface StatService {
+public interface StatsService {
 
     void addHit(StatHitDto statHitDto);
 

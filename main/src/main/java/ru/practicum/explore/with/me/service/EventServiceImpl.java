@@ -215,7 +215,6 @@ public class EventServiceImpl implements EventService {
         return EventMapper.toEventFullDto(eventRepository.save(event));
     }
 
-
     private <T extends EventBaseDto> void verifyChange(Event event, T dto) {
         if (dto.getAnnotation() != null && !dto.getAnnotation().isEmpty()) {
             event.setAnnotation(dto.getAnnotation());
