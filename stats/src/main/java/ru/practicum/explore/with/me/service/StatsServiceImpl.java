@@ -12,7 +12,6 @@ import ru.practicum.explore.with.me.repository.StatRepository;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

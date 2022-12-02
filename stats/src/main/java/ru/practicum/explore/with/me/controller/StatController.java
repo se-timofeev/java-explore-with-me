@@ -23,6 +23,7 @@ public class StatController {
         log.info("addHit= {}", statHitDto);
         statsService.addHit(statHitDto);
     }
+
     @PostMapping("/hits")
     public void addHits(@Valid @RequestBody List<StatHitDto> hitsDto) {
         log.info("addHits List<> = {}", hitsDto);
