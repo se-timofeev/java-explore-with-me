@@ -132,7 +132,8 @@ public class RequestsServiceImpl implements RequestsService {
         return eventRepository.findOne(((root, query, criteriaBuilder) ->
                 criteriaBuilder.and(
                         criteriaBuilder.equal(root.get("id"), eventId),
-                        (initiator) ? criteriaBuilder.equal(root.get("initiator"), userId) : criteriaBuilder.notEqual(root.get("initiator"), userId),
+                        (initiator) ? criteriaBuilder.equal(
+                                root.get("initiator"), userId) : criteriaBuilder.notEqual(root.get("initiator"), userId),
                         criteriaBuilder.equal(root.get("state"), State.PUBLISHED.ordinal())
                 ))).orElseThrow(() -> new NotFoundException("event not found"));
     }

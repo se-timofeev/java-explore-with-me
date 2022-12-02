@@ -49,18 +49,24 @@ public class EventServiceImpl implements EventService {
                                      Integer size) {
         int page = from / size;
         LocalDateTime currentDate = LocalDateTime.now();
-        Page<Event> events = eventRepository.findAll((root, query, criteriaBuilder) ->
-                        criteriaBuilder.and(
-                                (users != null) ? root.get("initiator").in(users) : root.isNotNull(),
-                                (states != null) ? root.get("state").in(states.stream().map(el -> State.valueOf(el).ordinal()).collect(Collectors.toList())) : root.isNotNull(),
+        Page<Event> events = eventRepository.findAll(
+                (root,
+                 query,
+                 criteriaBuilder) -> criteriaBuilder
+                        .and((users != null) ? root.get("initiator").in(users) : root.isNotNull(),
+                                (states != null) ? root.get("state").in(states.stream().map(
+                                        el -> State.valueOf(el).ordinal()).collect(Collectors.toList())) : root.isNotNull(),
                                 (categories != null) ? root.get("categories").in(categories) : root.isNotNull(),
                                 (!rangeStart.isEmpty() && !rangeEnd.isEmpty()) ?
-                                        criteriaBuilder.and(
-                                                criteriaBuilder.greaterThan(root.get("eventDate"), LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))),
-                                                criteriaBuilder.lessThan(root.get("eventDate"), LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                                        ) : criteriaBuilder.lessThan(root.get("eventDate"), currentDate)
-                        ),
+                                        criteriaBuilder.and(criteriaBuilder.greaterThan(root.get("eventDate"),
+                                                        LocalDateTime.parse(rangeStart,
+                                                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))),
+                                                criteriaBuilder.lessThan(root.get("eventDate"),
+                                                        LocalDateTime.parse(rangeEnd,
+                                                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                        ) : criteriaBuilder.lessThan(root.get("eventDate"), currentDate)),
                 PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")));
+
         return events.stream()
                 .map(EventMapper::toEventFullDto)
                 .collect(Collectors.toList());
@@ -120,18 +126,25 @@ public class EventServiceImpl implements EventService {
                                 (paid != null) ? criteriaBuilder.equal(root.get("paid"), paid) : root.isNotNull(),
                                 (!rangeStart.isEmpty() && !rangeEnd.isEmpty()) ?
                                         criteriaBuilder.and(
-                                                criteriaBuilder.greaterThan(root.get("eventDate"), LocalDateTime.parse(rangeStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))),
-                                                criteriaBuilder.lessThan(root.get("eventDate"), LocalDateTime.parse(rangeEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                                criteriaBuilder.greaterThan(root.get("eventDate"),
+                                                        LocalDateTime.parse(rangeStart,
+                                                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))),
+                                                criteriaBuilder.lessThan(root.get("eventDate"),
+                                                        LocalDateTime.parse(rangeEnd,
+                                                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                                         ) : criteriaBuilder.lessThan(root.get("eventDate"), currentDate),
                                 (onlyAvailable) ? criteriaBuilder.or(
                                         criteriaBuilder.equal(root.get("participantLimit"), 0),
                                         criteriaBuilder.and(
                                                 criteriaBuilder.notEqual(root.get("participantLimit"), 0),
-                                                criteriaBuilder.greaterThan(root.get("participantLimit"), root.get("confirmedRequests"))
+                                                criteriaBuilder.greaterThan(root.get("participantLimit"),
+                                                        root.get("confirmedRequests"))
                                         )) : root.isNotNull(),
                                 (text != null) ? criteriaBuilder.or(
-                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("annotation")), "%" + text.toLowerCase() + "%"),
-                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + text.toLowerCase() + "%")
+                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("annotation")),
+                                                "%" + text.toLowerCase() + "%"),
+                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
+                                                "%" + text.toLowerCase() + "%")
                                 ) : root.isNotNull()),
                 PageRequest.of(page, size, mySort));
         return events.stream()
@@ -143,9 +156,11 @@ public class EventServiceImpl implements EventService {
     public List<EventDtoShort> getAll(Long userId, Integer from, Integer size) {
         int page = from / size;
         return eventRepository.findAll(
-                        (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("initiator"),
-                                User.builder().id(userId).build()), PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")))
-                .stream()
+                        (root,
+                         query,
+                         criteriaBuilder) -> criteriaBuilder.equal(root.get("initiator"),
+                                User.builder().id(userId).build()),
+                        PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"))).stream()
                 .map(EventMapper::toEventShortDto)
                 .collect(Collectors.toList());
     }

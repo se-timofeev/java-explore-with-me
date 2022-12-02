@@ -47,18 +47,25 @@ public class StatServiceImpl implements StatService {
     }
 
     @Override
-    public List<EventDtoShort> getViewStats(HttpServletRequest request, List<EventDtoShort> eventDtoShortList) throws URISyntaxException, IOException, InterruptedException {
+    public List<EventDtoShort> getViewStats(
+            HttpServletRequest request,
+            List<EventDtoShort> eventDtoShortList) throws URISyntaxException, IOException, InterruptedException {
+
         List<String> uris = eventDtoShortList.stream()
                 .map(el -> "/events/" + el.getId().toString())
                 .collect(Collectors.toList());
         List<StatsViewDto> statsViewDtoList = getStats(uris);
-        Map<String, StatsViewDto> statsViewDtoMap = statsViewDtoList.stream().collect(Collectors.toMap(StatsViewDto::getUri, v -> v));
+
+        Map<String, StatsViewDto> statsViewDtoMap = statsViewDtoList.stream()
+                .collect(Collectors.toMap(StatsViewDto::getUri, v -> v));
+
         eventDtoShortList.forEach(el -> {
             String key = "/events/" + el.getId().toString();
             StatsViewDto stats = new StatsViewDto();
             Long hits = statsViewDtoMap.getOrDefault(key, stats).getHits();
             el.setViews(hits);
         });
+
         StringBuilder query = new StringBuilder();
         query.append("/events");
         if (request.getQueryString() != null) {
@@ -71,7 +78,8 @@ public class StatServiceImpl implements StatService {
     }
 
     @Override
-    public EventFullDto getViewStats(HttpServletRequest request, EventFullDto eventFullDto) throws URISyntaxException, IOException, InterruptedException {
+    public EventFullDto getViewStats(HttpServletRequest request,
+                                     EventFullDto eventFullDto) throws URISyntaxException, IOException, InterruptedException {
         List<String> uris = List.of("/events/" + eventFullDto.getId().toString());
         List<StatsViewDto> statsViewDto = getStats(uris);
         Long view = (statsViewDto.size() != 0) ? statsViewDto.get(0).getHits() : 0L;
@@ -80,7 +88,8 @@ public class StatServiceImpl implements StatService {
         return eventFullDto;
     }
 
-    private void statsHit(HttpServletRequest request, List<String> uris) throws IOException, URISyntaxException, InterruptedException {
+    private void statsHit(HttpServletRequest request,
+                          List<String> uris) throws IOException, URISyntaxException, InterruptedException {
         List<StatsHitDto> statsHitDtoList = uris.stream()
                 .map(uri -> StatsHitDto.builder()
                         .app("ewm-main-service")
@@ -132,8 +141,10 @@ public class StatServiceImpl implements StatService {
     private List<StatsViewDto> getStats(List<String> uris) throws URISyntaxException, IOException, InterruptedException {
         URI uri = new URIBuilder(serverUrl + "/stats")
                 .addParameter("start", LocalDateTime.now().minusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .addParameter("end", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .addParameter("uris", listToString(uris))
+                .addParameter(
+                        "end", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .addParameter(
+                        "uris", listToString(uris))
                 .build();
 
         HttpRequest statRequest = HttpRequest.newBuilder(uri)

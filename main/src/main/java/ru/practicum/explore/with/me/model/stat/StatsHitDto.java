@@ -61,9 +61,9 @@ public class StatsHitDto {
 
         public String toString() {
             return "StatsHitDto.StatsHitDtoBuilder(app=" +
-                    this.app + ", uri=" +
-                    this.uri + ", ip=" +
-                    this.ip + ", timestamp=" +
+                    this.app + ", uri = " +
+                    this.uri + ", ip = " +
+                    this.ip + ", timestamp = " +
                     this.timestamp + ")";
         }
     }
