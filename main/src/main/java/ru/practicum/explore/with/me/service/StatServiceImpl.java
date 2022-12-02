@@ -89,9 +89,14 @@ public class StatServiceImpl implements StatService {
                         .ip(request.getRemoteAddr())
                         .build())
                 .collect(Collectors.toList());
-        for (StatsHitDto statsHitDto : statsHitDtoList) {
-            sendStats(statsHitDto);
+
+        // для уменьшения накладных расходов на вызов в случае передачи большого списка
+        if (statsHitDtoList.size() == 1) {
+            sendStats(statsHitDtoList.get(0));
+        } else {
+            sendStatsList(statsHitDtoList);
         }
+
     }
 
     private void sendStats(StatsHitDto statsHitDto) throws IOException, URISyntaxException, InterruptedException {
@@ -100,6 +105,21 @@ public class StatServiceImpl implements StatService {
                 .writeValueAsString(statsHitDto);
 
         HttpRequest statRequest = HttpRequest.newBuilder(new URI(serverUrl + "/hit"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpClient.newHttpClient()
+                .send(statRequest, HttpResponse.BodyHandlers.ofString());
+
+    }
+
+    private void sendStatsList(List<StatsHitDto> statsHitDtoList) throws IOException, URISyntaxException, InterruptedException {
+        String requestBody = objectMapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(statsHitDtoList);
+
+        HttpRequest statRequest = HttpRequest.newBuilder(new URI(serverUrl + "/hits"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();

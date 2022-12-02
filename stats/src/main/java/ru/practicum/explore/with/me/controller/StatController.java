@@ -23,6 +23,11 @@ public class StatController {
         log.info("addHit= {}", statHitDto);
         statsService.addHit(statHitDto);
     }
+    @PostMapping("/hits")
+    public void addHits(@Valid @RequestBody List<StatHitDto> hitsDto) {
+        log.info("addHits List<> = {}", hitsDto);
+        statsService.addHits(hitsDto);
+    }
 
     @GetMapping("/stats")
     public List<StatViewDto> getViewStats(
@@ -30,7 +35,7 @@ public class StatController {
             @RequestParam String end,
             @RequestParam(required = false) List<String> uris,
             @RequestParam(required = false, defaultValue = "false") Boolean isUnique) {
-        log.info("getViewStats start {}, end, uris {},isUnique{{", start, end, uris, isUnique);
+        log.info("getViewStats start {}, end, uris {},isUnique{}", start, end, uris, isUnique);
         return statsService.getStat(start, end, uris, isUnique);
     }
 

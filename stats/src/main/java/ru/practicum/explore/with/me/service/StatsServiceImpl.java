@@ -12,7 +12,9 @@ import ru.practicum.explore.with.me.repository.StatRepository;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -44,6 +46,18 @@ public class StatsServiceImpl implements StatsService {
         }
     }
 
+    @Override
+    @Transactional
+    public void addHits(List<StatHitDto> hitsDto) {
+        List<StatHit> hits = hitsDto.stream().map(it -> {
+            try {
+                return Mapper.toStatsHit(it);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }).collect(Collectors.toList());
 
+        statRepository.saveAll(hits);
+    }
 
 }

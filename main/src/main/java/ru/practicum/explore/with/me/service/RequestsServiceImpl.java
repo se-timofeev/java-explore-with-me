@@ -94,7 +94,7 @@ public class RequestsServiceImpl implements RequestsService {
         Event event = eventOne(eventId, userId, false);
         Long requestsCount = requestsCount(event);
         if (event.getParticipantLimit() != 0 && event.getParticipantLimit() <= requestsCount) {
-            throw new ValidationException("events are succeeded the limit", event.getParticipantLimit().toString());
+            throw new ValidationException("Events have exceeded the limit", event.getParticipantLimit().toString());
         }
         requestsRepository.findByRequesterAndEvent(
                         User.builder().id(userId).build(),

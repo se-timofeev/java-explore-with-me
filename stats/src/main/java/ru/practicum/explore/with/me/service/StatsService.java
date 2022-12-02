@@ -9,6 +9,8 @@ public interface StatsService {
 
     void addHit(StatHitDto statHitDto);
 
+    void addHits(List<StatHitDto> hits);
+
     List<StatViewDto> getStat(String start, String end, List<String> uris, Boolean unique);
 
 }

@@ -20,7 +20,7 @@ public class User {
     private Long id;
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,length = 320)
     private String email;
 
     @Override

@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 public class StatHitDto {
 
     @NotBlank
-    private String app; //Идентификатор сервиса для которого записывается информация
+    private String app;
     @NotBlank
-    private String uri; //URI для которого был осуществлен запрос
+    private String uri;
     @NotBlank
-    private String ip; //IP-адрес пользователя, осуществившего запрос
+    private String ip;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime timestamp; //Дата и время, когда был совершен запрос к эндпоинту (в формате "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime timestamp;
 
 }
