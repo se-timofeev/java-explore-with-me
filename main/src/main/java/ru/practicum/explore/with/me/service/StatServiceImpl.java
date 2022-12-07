@@ -2,12 +2,12 @@ package ru.practicum.explore.with.me.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.practicum.explore.with.me.model.events.dto.EventFullDto;
 import ru.practicum.explore.with.me.model.events.dto.EventDtoShort;
+import ru.practicum.explore.with.me.model.events.dto.EventFullDto;
 import ru.practicum.explore.with.me.model.stat.StatsHitDto;
 import ru.practicum.explore.with.me.model.stat.StatsViewDto;
 
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class StatServiceImpl implements StatService {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(StatServiceImpl.class);
     private final ObjectMapper objectMapper;
     @Value("${stats-server.url}")
     private String serverUrl;
